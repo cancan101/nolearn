@@ -84,6 +84,7 @@ class NeuralNet(BaseEstimator):
         on_training_finished=(),
         more_params=None,
         verbose=0,
+        pdb_on_keyboard_interrupt=False,
         **kwargs
         ):
         if loss is None:
@@ -113,6 +114,7 @@ class NeuralNet(BaseEstimator):
         self.on_training_finished = on_training_finished
         self.more_params = more_params or {}
         self.verbose = verbose
+        self.pdb_on_keyboard_interrupt = pdb_on_keyboard_interrupt
 
         for key in kwargs.keys():
             assert not hasattr(self, key)
@@ -149,7 +151,8 @@ class NeuralNet(BaseEstimator):
         try:
             self.train_loop(X, y)
         except KeyboardInterrupt:
-            pdb.set_trace()
+            if self.pdb_on_keyboard_interrupt:
+                pdb.set_trace()
         return self
 
     def train_loop(self, X, y):
