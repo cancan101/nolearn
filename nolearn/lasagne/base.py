@@ -291,6 +291,10 @@ class NeuralNet(BaseEstimator):
             pass
         return self
 
+    def get_epoch_data(self, X_train, y_train):
+        X_train_iter, y_train_iter = X_train, y_train
+        return X_train_iter, y_train_iter
+
     def train_loop(self, X, y):
         X_train, X_valid, y_train, y_valid = self.train_test_split(
             X, y, self.eval_size)
@@ -329,9 +333,11 @@ class NeuralNet(BaseEstimator):
             valid_accuracies = []
             custom_score = []
 
+            X_train_iter, y_train_iter = self.get_epoch_data(X_train, y_train)
+
             t0 = time()
 
-            for Xb, yb in self.batch_iterator_train(X_train, y_train):
+            for Xb, yb in self.batch_iterator_train(X_train_iter, y_train_iter):
                 batch_train_loss = self.train_iter_(Xb, yb)
                 train_losses.append(batch_train_loss)
 
