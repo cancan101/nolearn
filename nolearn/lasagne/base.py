@@ -264,10 +264,11 @@ class NeuralNet(BaseEstimator):
                        "Maybe parameter names have changed?".format(
                            layer_factory, layer_kw))
                 chain_exception(TypeError(msg), e)
-            self.layers_[layer_kw['name']] = layer
+
             if layer_wrapper is not None:
+                self.layers_["WL_%s" % layer_kw['name']] = layer
                 layer = layer_wrapper(layer)
-                self.layers_["LW_%s" % layer_kw['name']] = layer
+            self.layers_[layer_kw['name']] = layer
 
         return layer
 
