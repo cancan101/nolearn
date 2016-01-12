@@ -2,7 +2,11 @@ from itertools import product
 
 from lasagne.layers import get_output
 from lasagne.layers import get_output_shape
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    import sys
+    print>>sys.stderr, "Unable to load matplotlib"
 import numpy as np
 import theano
 import theano.tensor as T
